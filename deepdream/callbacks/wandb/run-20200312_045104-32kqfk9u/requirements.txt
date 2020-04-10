@@ -31,7 +31,7 @@ beautifulsoup4==4.7.1
 bert-serving-client==1.9.9
 bert-serving-server==1.9.9
 bert4keras==2019.10.18.14.26.7
-bleach==3.1.0
+bleach==3.1.4
 blinker==1.4
 boltons==20.0.0
 boto3==1.9.185
