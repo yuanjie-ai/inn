@@ -6,3 +6,8 @@
 [![PyPI release](https://img.shields.io/pypi/v/DeepNN.svg)](https://pypi.python.org/pypi/DeepNN)
 [![PyPI version](https://img.shields.io/pypi/pyversions/DeepNN.svg)](https://pypi.python.org/pypi/DeepNN)
 ---
+
+# Install
+```sh
+pip install deepnn
+```
