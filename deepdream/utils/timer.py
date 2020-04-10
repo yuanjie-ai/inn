@@ -7,23 +7,24 @@
 # @Email        : yuanjie@xiaomi.com
 # @Software     : PyCharm
 # @Description  :
-    # class MyResource:
-    #     def query(self):
-    #         print('query data')
-    #
-    # @contextmanager
-    # def make_myresource():
-    #     print('start to connect')
-    #     yield MyResource()
-    #     print('end connect')
-    #     pass
-    # with make_myresource() as r:
-    #      r.query()
-from skorch.helper import parse_args
+
+# class MyResource:
+#     def query(self):
+#         print('query data')
+#
+# @contextmanager
+# def make_myresource():
+#     print('start to connect')
+#     yield MyResource()
+#     print('end connect')
+#     pass
+# with make_myresource() as r:
+#      r.query()
 
 import time
 from contextlib import contextmanager
-from deeptricks.utils import cprint
+from ..utils import cprint
+
 
 @contextmanager
 def timer(task_name="timer"):
@@ -37,4 +38,3 @@ def timer(task_name="timer"):
 if __name__ == '__main__':
     with timer() as t:
         print('xxx')
-
