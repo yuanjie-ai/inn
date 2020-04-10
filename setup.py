@@ -8,7 +8,6 @@
 # @Software     : PyCharm
 # @Description  : 
 
-
 import os
 import time
 from pathlib import Path
@@ -16,6 +15,7 @@ from setuptools import find_packages, setup
 
 # rename
 package_name = project_name = Path(".").cwd().name
+
 version = time.strftime("%Y.%m.%d.%H.%M.%S", time.localtime())
 
 with open("README.md", encoding='utf-8') as f:
