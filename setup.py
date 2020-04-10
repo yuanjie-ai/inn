@@ -32,9 +32,9 @@ def get_requirements():
 setup(
     name=package_name,
     version=version,
-    url='https://github.com/Jie-Yuan/' + project_name,
-    keywords=["tool wheel", "yuanjie", 'utils'],
-    description=('description'),
+    url=f'https://github.com/Jie-Yuan/{project_name}',
+    keywords=["deepctr", "deepnn", 'deepfm'],
+    description=('深度学习工具类'),
     long_description=long_description,
     long_description_content_type="text/markdown",
     author='JieYuan',
@@ -46,7 +46,7 @@ setup(
     include_package_data=True,
     package_data={'': ['*.*']},
     platforms=["all"],
-    python_requires='>=3.5',
+    python_requires='>=3.6',
     classifiers=[
 
         'Operating System :: OS Independent',
