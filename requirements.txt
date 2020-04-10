@@ -1,3 +1,4 @@
 tqdm
 wrapt
 loguru
+sklearn

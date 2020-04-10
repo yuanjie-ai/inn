@@ -21,18 +21,15 @@
 # with make_myresource() as r:
 #      r.query()
 
-import time
 from contextlib import contextmanager
-from ..utils import cprint
+from loguru import logger
 
 
 @contextmanager
 def timer(task_name="timer"):
-    print('\n')
-    cprint(f"⏰ {task_name} started")
-    t0 = time.time()
+    logger.info(f"⏰ {task_name} started ...")
     yield
-    cprint(f"⏰ {task_name} done in {time.time() - t0:.3f} seconds")
+    logger.info(f"⏰ {task_name} done")
 
 
 if __name__ == '__main__':
