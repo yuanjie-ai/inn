@@ -21,7 +21,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 try:
     clf = XGBClassifier(learning_rate=0.01,
-                        n_estimators=1000,
+                        n_estimators=10000,
                         tree_method='gpu_hist',
                         predictor='gpu_predictor',
                         verbosity=0,
@@ -31,7 +31,7 @@ try:
     clf.fit(X, y,
             eval_metric='logloss',
             eval_set=[(X_train, y_train), (X_test, y_test)],
-            early_stopping_rounds=1000,
+            early_stopping_rounds=10000,
             verbose=100)
 
 except Exception as e:
