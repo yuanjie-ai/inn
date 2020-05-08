@@ -19,17 +19,31 @@ X, y = make_classification(10000)
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.33, random_state=42)
 
+try:
+    clf = XGBClassifier(learning_rate=0.01,
+                        n_estimators=1000,
+                        tree_method='gpu_hist',
+                        predictor='gpu_predictor',
+                        verbosity=0,
+                        n_jobs=-1,
+                        )
 
-clf = XGBClassifier(learning_rate=0.01,
-                    n_estimators=1000,
-                    tree_method='gpu_hist',
-                    predictor='gpu_predictor',
-                    verbosity=0,
-                    n_jobs=8,
-                   )
+    clf.fit(X, y,
+            eval_metric='logloss',
+            eval_set=[(X_train, y_train), (X_test, y_test)],
+            early_stopping_rounds=1000,
+            verbose=100)
 
-clf.fit(X, y,
-        eval_metric='logloss',
-        eval_set=[(X_train, y_train), (X_test, y_test)],
-        early_stopping_rounds=1000,
-        verbose=100)
+except Exception as e:
+    print(e)
+    clf = XGBClassifier(learning_rate=0.01,
+                        n_estimators=1000,
+                        verbosity=0,
+                        n_jobs=-1,
+                        )
+
+    clf.fit(X, y,
+            eval_metric='logloss',
+            eval_set=[(X_train, y_train), (X_test, y_test)],
+            early_stopping_rounds=1000,
+            verbose=100)
