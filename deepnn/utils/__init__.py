@@ -7,18 +7,23 @@
 # @Email        : yuanjie@xiaomi.com
 # @Software     : PyCharm
 # @Description  :
-import os
-import numpy as np
 
 from .pipe import *
 from .logger import *
 from .timer import timer
 from .cprint import cprint
-from .hashtrick import murmurhash
+from .NT import NT
 
-get_module_path = lambda path, file=__file__: \
-    os.path.normpath(os.path.join(os.getcwd(), os.path.dirname(file), path))
+if os.environ.get('disable_eager_execution'):
+    import tensorflow as tf
+
+    tf.compat.v1.disable_eager_execution()
+    logger.info('关闭动态图')
 
 
-def noramlize(x):
-    return x / np.linalg.norm(x, 2, axis=len(x.shape) > 1, keepdims=True)
+# from distutils.util import strtobool
+# import numpy as np
+# import tensorflow as tf
+#
+# # 判断是tf.keras还是纯keras的标记
+# is_tf_keras = strtobool(os.environ.get('TF_KERAS', '0'))

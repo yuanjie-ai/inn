@@ -8,7 +8,7 @@
 # @Software     : PyCharm
 # @Description  : 
 
-
+import hashlib
 from sklearn.utils.murmurhash import murmurhash3_32
 
 """Java
@@ -22,8 +22,21 @@ def hash(key: String = "key", value: String = "value", bins: Int = 10000): Int =
 """
 
 
-def murmurhash(key="key", value="value", bins=None):
+def md5(string: str):
+    return hashlib.md5(string.encode('utf8')).hexdigest()
+
+
+def murmurhash(key="key", value="value", bins=None, str2md5=False):
     """key:value"""
-    _ = murmurhash3_32(f"{key}:{value}")
-    _ = abs(_)
+    string = f"{key}:{value}"
+    if str2md5:
+        string = md5(string)
+
+    _ = abs(murmurhash3_32(string))
     return _ % bins if bins else _
+
+
+if __name__ == '__main__':
+    print(md5("key:value"))
+    print(murmurhash())
+    print(murmurhash(str2md5=True))

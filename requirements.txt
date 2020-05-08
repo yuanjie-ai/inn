@@ -2,3 +2,9 @@ tqdm
 wrapt
 loguru
 sklearn
+pretty_errors
+pyforest
+
+tensorflow_addons
+
+apollo-client

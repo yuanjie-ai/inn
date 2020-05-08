@@ -8,7 +8,8 @@
 # @Software     : PyCharm
 # @Description  : 
 
-# import tensorflow as tf
+import tensorflow as tf
+
 #
 # from tensorflow.python import keras
 #
@@ -29,3 +30,32 @@
 # losses = keras.losses
 # optimizers = keras.optimizers
 # regularizers = keras.regularizers
+
+custom_objects = {
+    # metrics
+    'auc': tf.keras.metrics.AUC
+
+    # losses
+
+    # optimizers
+
+    # callbacks
+
+    # layers
+
+    # activations
+
+    # 'Embedding': Embedding,
+    # 'BiasAdd': BiasAdd,
+    # 'MultiHeadAttention': MultiHeadAttention,
+    # 'LayerNormalization': LayerNormalization,
+    # 'PositionEmbedding': PositionEmbedding,
+    # 'RelativePositionEmbedding': RelativePositionEmbedding,
+    # 'RelativePositionEmbeddingT5': RelativePositionEmbeddingT5,
+    # 'FeedForward': FeedForward,
+    # 'ConditionalRandomField': ConditionalRandomField,
+    # 'MaximumEntropyMarkovModel': MaximumEntropyMarkovModel,
+    # 'Loss': Loss,
+}
+
+tf.keras.utils.get_custom_objects().update(custom_objects)

@@ -8,88 +8,76 @@
 # @Software     : PyCharm
 # @Description  : 
 import tensorflow as tf
-from tensorflow.python.keras import backend as K
-from tensorflow.python.keras.initializers import Zeros, glorot_normal
-from tensorflow.python.keras.layers import Layer
-from tensorflow.python.keras.regularizers import l2
 
 
-class DNN(Layer):
+class DNN(tf.keras.layers.Layer):
 
-    def __init__(self, hidden_units, activation='relu', l2_reg=0, dropout_rate=0, use_bn=False, seed=1024, **kwargs):
-        self.hidden_units = hidden_units
+    def __init__(self,
+                 hidden_units_list,
+                 activation='relu',
+                 kernel_regularizer=tf.keras.regularizers.l2(),
+                 use_bn=False,
+                 dropout_rate=0,
+                 seed=666,
+                 **kwargs):
+        super().__init__(**kwargs)
+
+        self.hidden_units_list = hidden_units_list
         self.activation = activation
         self.dropout_rate = dropout_rate
-        self.seed = seed
-        self.l2_reg = l2_reg
+        self.kernel_regularizer = kernel_regularizer
         self.use_bn = use_bn
-        self.hidden_units_index = range(len(self.hidden_units))
-
-        super(DNN, self).__init__(**kwargs)
+        self.seed = seed
+        self.num_layer = len(self.hidden_units_list)
 
     def build(self, input_shape):
-        input_size = input_shape[-1]
-        hidden_units = [int(input_size)] + list(self.hidden_units)
+        super().build(input_shape)  # self.built = True
 
-        # range(len(self.hidden_units))
-
-        self.kernels = []
-        self.bias = []
-
-        for i in range(len(self.hidden_units)):
-            kernel = self.add_weight(
-                name='kernel' + str(i),
-                shape=(hidden_units[i], hidden_units[i + 1]),
-                initializer=glorot_normal(seed=self.seed),
-                regularizer=l2(self.l2_reg),
-                trainable=True
+        # https://blog.csdn.net/macair123/article/details/79511221
+        # 一个初始化器可以由字符串指定（必须是下面的预定义初始化器之一），或一个callable的函数
+        # Dense(64, kernel_initializer='random_normal')
+        # Dense(64, kernel_initializer=initializers.random_normal(stddev=0.01))
+        self.dense_layers = []
+        for index, units in enumerate(self.hidden_units_list):
+            _ = tf.keras.layers.Dense(
+                units,
+                activation=self.activation,
+                use_bias=True,
+                kernel_initializer='glorot_uniform',
+                bias_initializer='zeros',
+                kernel_regularizer=self.kernel_regularizer,
+                bias_regularizer=None,
+                name=f"dense{index}"
             )
-            bias = self.add_weight(
-                name='bias' + str(i),
-                shape=(self.hidden_units[i],),
-                initializer=Zeros(),
-                trainable=True
-            )
+            self.dense_layers.append(_)
 
-            self.kernels.append(kernel)
-            self.bias.append(bias)
-
+        # BN
         if self.use_bn:
-            self.bn_layers = [tf.keras.layers.BatchNormalization()] * len(self.hidden_units)
+            self.bn_layers = self.num_layer * [tf.keras.layers.BatchNormalization()]
 
-        self.dropout_layers = [tf.keras.layers.Dropout()] * len(self.hidden_units)
+        self.dropout_layers = self.num_layer * [tf.keras.layers.Dropout(self.dropout_rate)]  # seed
 
-        self.activation_layers = [activation_layer(self.activation)] * len(self.hidden_units)
-
-        super(DNN, self).build(input_shape)  # Be sure to call this somewhere! 传递信息？
-
-    def call(self, inputs, training=None, **kwargs):
-
+    def call(self, inputs, **kwargs):
         deep_input = inputs
-        for i in range(len(self.hidden_units)):
-            fc = tf.nn.bias_add(tf.tensordot(deep_input, self.kernels[i], axes=(-1, 0)), self.bias[i])
-            fc = self.bn_layers[i](fc, training=training) if self.use_bn else fc
-            fc = self.activation_layers[i](fc)
-            fc = self.dropout_layers[i](fc, training=training)
+        for i in range(self.num_layer):
+            fc = self.dense_layers[i](deep_input)  # 注意下次循环的输入
+            fc = self.bn_layers[i](fc) if self.use_bn else fc
+            fc = self.dropout_layers[i](fc)
+            deep_input = fc
+
         return fc
 
     def compute_output_shape(self, input_shape):
-        if len(self.hidden_units) > 0:
-            shape = input_shape[:-1] + (self.hidden_units[-1],)
-        else:
-            shape = input_shape
+        return input_shape[:-1] + (self.hidden_units_list[-1],)
 
-        return tuple(shape)
-
-    def get_config(self, ):
+    def get_config(self):
+        base_config = super().get_config()
         config = {
+            'hidden_units': self.hidden_units_list,
             'activation': self.activation,
-            'hidden_units': self.hidden_units,
-            'l2_reg': self.l2_reg,
+            'kernel_regularizer': self.kernel_regularizer,
             'use_bn': self.use_bn,
             'dropout_rate': self.dropout_rate,
             'seed': self.seed
         }
-        base_config = super(DNN, self).get_config()  # TODO: 更新配置信息
         return {**base_config, **config}
-        # return dict(list(base_config.items()) + list(config.items()))

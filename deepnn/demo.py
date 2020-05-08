@@ -8,6 +8,22 @@
 # @Software     : PyCharm
 # @Description  : 
 
-from yaml import safe_load
+# coding=utf-8
+from tensorflow.keras.models import *
+from tensorflow.keras.layers import *
+import tensorflow.keras.backend as K
 
-print(safe_load(open('./files.yml')))
+x_in = Input(shape=(784,))
+x = x_in
+x = Dense(100, activation='relu')(x)
+x = Dense(784, activation='sigmoid')(x)
+
+model = Model(x_in, x)
+loss = K.mean((x - x_in) ** 2)
+model.add_loss(loss)
+model.compile(optimizer='adam') # from tensorflow_addons.optimizers import AdamW
+
+model.summary()
+# model.fit(x_train, None, epochs=5)
+
+
