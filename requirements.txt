@@ -7,4 +7,3 @@ pyforest
 
 tensorflow_addons
 
-apollo-client

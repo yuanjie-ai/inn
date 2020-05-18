@@ -20,3 +20,6 @@ Layer的子类化一般需要重新实现初始化方法，Build方法和Call方
 # 然后2倍扩大或缩小，实验几次，一般就能得到一个相对较好的值。另外，embedding的初始化也是非常重要的，需要精细调参。
 k * int(word_size**0.25) # k <= 16
 
+
+# /Users/yuanjie/Desktop/Projects/Python/DeepCTR/tests/layers
+

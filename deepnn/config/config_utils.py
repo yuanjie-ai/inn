@@ -16,6 +16,8 @@ class Config(object):
     """
     http://106.54.227.205/
     https://github.com/ctripcorp/apollo
+
+    client = ApolloClient('400000008', 'c3', 'http://10.114.38.22:8080') # port不对
     """
 
     def __init__(self, ):
@@ -32,6 +34,3 @@ class Config(object):
         client = ApolloClient(app_id, cluster, config_server_url)
         client.start()
         return client
-
-
-

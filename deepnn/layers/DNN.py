@@ -19,8 +19,9 @@ class DNN(tf.keras.layers.Layer):
                  use_bn=False,
                  dropout_rate=0,
                  seed=666,
+                 name='DNN',
                  **kwargs):
-        super().__init__(**kwargs)
+        super().__init__(name=name, **kwargs)
 
         self.hidden_units_list = hidden_units_list
         self.activation = activation
@@ -33,10 +34,6 @@ class DNN(tf.keras.layers.Layer):
     def build(self, input_shape):
         super().build(input_shape)  # self.built = True
 
-        # https://blog.csdn.net/macair123/article/details/79511221
-        # 一个初始化器可以由字符串指定（必须是下面的预定义初始化器之一），或一个callable的函数
-        # Dense(64, kernel_initializer='random_normal')
-        # Dense(64, kernel_initializer=initializers.random_normal(stddev=0.01))
         self.dense_layers = []
         for index, units in enumerate(self.hidden_units_list):
             _ = tf.keras.layers.Dense(
@@ -55,7 +52,8 @@ class DNN(tf.keras.layers.Layer):
         if self.use_bn:
             self.bn_layers = self.num_layer * [tf.keras.layers.BatchNormalization()]
 
-        self.dropout_layers = self.num_layer * [tf.keras.layers.Dropout(self.dropout_rate)]  # seed
+        self.dropout_layers = self.num_layer * [
+            tf.keras.layers.Dropout(self.dropout_rate, seed=self.seed + 666)]  # seed + i
 
     def call(self, inputs, **kwargs):
         deep_input = inputs
