@@ -1,13 +1,13 @@
-<h1 align = "center">:rocket: DeepNN :facepunch:</h1>
+<h1 align = "center">:rocket: inn :facepunch:</h1>
 
-[![Downloads](http://pepy.tech/badge/DeepNN)](http://pepy.tech/project/DeepNN)
-[![Downloads](https://pepy.tech/badge/DeepNN/month)](https://pepy.tech/project/DeepNN/month)
-[![Downloads](https://pepy.tech/badge/DeepNN/week)](https://pepy.tech/project/DeepNN/week)
-[![PyPI release](https://img.shields.io/pypi/v/DeepNN.svg)](https://pypi.python.org/pypi/DeepNN)
-[![PyPI version](https://img.shields.io/pypi/pyversions/DeepNN.svg)](https://pypi.python.org/pypi/DeepNN)
+[![Downloads](http://pepy.tech/badge/inn)](http://pepy.tech/project/inn)
+[![Downloads](https://pepy.tech/badge/inn/month)](https://pepy.tech/project/inn/month)
+[![Downloads](https://pepy.tech/badge/inn/week)](https://pepy.tech/project/inn/week)
+[![PyPI release](https://img.shields.io/pypi/v/inn.svg)](https://pypi.python.org/pypi/inn)
+[![PyPI version](https://img.shields.io/pypi/pyversions/inn.svg)](https://pypi.python.org/pypi/inn)
 ---
 
 # Install
 ```sh
-pip install deepnn
+pip install inn
 ```
