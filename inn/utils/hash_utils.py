@@ -8,8 +8,8 @@
 # @Software     : PyCharm
 # @Description  : 
 
-import hashlib
-from sklearn.utils.murmurhash import murmurhash3_32
+import hashlib as _hashlib
+from sklearn.utils.murmurhash import murmurhash3_32 as _murmurhash3_32
 
 """Java
 import java.nio.charset.StandardCharsets
@@ -22,21 +22,21 @@ def hash(key: String = "key", value: String = "value", bins: Int = 10000): Int =
 """
 
 
-def md5(string: str):
-    return hashlib.md5(string.encode('utf8')).hexdigest()
+def _md5(string: str):
+    return _hashlib.md5(string.encode('utf8')).hexdigest()
 
 
 def murmurhash(key="key", value="value", bins=None, str2md5=False):
     """key:value"""
     string = f"{key}:{value}"
     if str2md5:
-        string = md5(string)
+        string = _md5(string)
 
-    _ = abs(murmurhash3_32(string))
+    _ = abs(_murmurhash3_32(string))
     return _ % bins if bins else _
 
 
 if __name__ == '__main__':
-    print(md5("key:value"))
+    print(_md5("key:value"))
     print(murmurhash())
     print(murmurhash(str2md5=True))

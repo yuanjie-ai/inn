@@ -14,13 +14,9 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 
-from pathlib import Path
 from functools import partial
 
 
-# TODO:
-#  ds.repeat()?
-#
 class Dataset(object):
     """
     https://tensorflow.google.cn/guide/data?hl=zh_cn
@@ -28,36 +24,35 @@ class Dataset(object):
     """
 
     def __init__(self, batchsize=128, cache_filename=""):
+
         self.batchsize = batchsize
         self.cache_filename = cache_filename
 
-    def from_cache(self, X, y=None, shuffle_buffer_size=10000):
+    def from_cache(self, inputs, outputs=None, shuffle_buffer_size=10000):
         """
-        from sklearn.datasets import load_iris
-        X, y = load_iris(True)
-
-        :param X: (list, np.ndarray, dict, pd.DataFrame)
-        :param y:
-        :param shuffle_buffer_size:
-        :return:
+        多输入多输出inputs/outputs对应元组
         """
-        assert isinstance(X, (list, np.ndarray, dict, pd.DataFrame)), "Date Type Error"
 
-        if isinstance(X, pd.DataFrame):
-            X = X.to_dict('list')
-        if y is None:
-            tensors = X
+        if isinstance(inputs, (list, np.ndarray, dict, pd.DataFrame)):
+            if isinstance(inputs, pd.DataFrame):
+                inputs = inputs.to_dict('list')
+        elif isinstance(inputs, tuple):  # Multi-inputs
+            pass
         else:
-            tensors = (X, y)
+            raise ValueError("`inputs` Data Type Error")
+
+        if outputs is None:
+            tensors = inputs
+        else:
+            tensors = (inputs, outputs)
 
         # Common
         ds = tf.data.Dataset.from_tensor_slices(tensors)
         ds = ds.shuffle(shuffle_buffer_size, seed=None)
         ds = ds.batch(self.batchsize)
-        ds = ds.prefetch(tf.data.experimental.AUTOTUNE)
+        ds = ds.prefetch(tf.data.experimental.AUTOTUNE) # todo: .repeat()
 
         return ds
-
 
     def from_generator(self):
         # TODO: 增加对文件的操作（txt/tfrecord）
@@ -103,7 +98,6 @@ class Dataset(object):
         # tf.data.Dataset.zip((features_dataset, labels_dataset))
         return ds
 
-
     def from_tfrecord(self, feature_dict: dict, file_pattern: str, file_shuffle=True, file_shuffle_seed=666,
                       shuffle_buffer_size=10000):
         """
@@ -138,4 +132,3 @@ class Dataset(object):
                 .prefetch(buffer_size=tf.data.experimental.AUTOTUNE)  # 若内存泄露，需手动指定
         )
         return ds
-

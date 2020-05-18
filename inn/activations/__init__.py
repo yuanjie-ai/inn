@@ -51,4 +51,4 @@ get_custom_objects().update({'custom_gelu': Activation(custom_gelu)})
 funcs = [mish, custom_gelu]
 custom_objects = {func.__name__: Activation(func) for func in funcs}
 
-get_custom_objects().update()
+get_custom_objects().update(custom_objects)
