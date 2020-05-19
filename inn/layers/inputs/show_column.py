@@ -9,7 +9,6 @@
 # @Description  : 
 import tensorflow as tf
 from tensorflow.python.feature_column.feature_column import _LazyBuilder
-tf.estimator.DNNClassifier
 
 def show_column(data: dict, feature_column):
     try:

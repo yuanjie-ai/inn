@@ -15,3 +15,8 @@ def focal_loss_fixed(y_true, y_pred):
     return -K.mean(alpha * K.pow(1. - pt_1, gamma) * K.log(K.epsilon()+pt_1))-K.mean((1-alpha) * K.pow( pt_0, gamma) * K.log(1. - pt_0 + K.epsilon()))
 
 get_custom_objects().update({'focal_loss_fn': focal_loss()})
+
+get_custom_objects
+import tensorflow as tf
+tf.keras.losses.Loss
+tf.keras.utils.get_custom_objects()

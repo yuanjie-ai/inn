@@ -8,6 +8,8 @@
 # @Software     : PyCharm
 # @Description  : 
 
+import pandas as pd
+from sklearn.model_selection import train_test_split
 from .Dataset import Dataset
 
 
@@ -16,3 +18,14 @@ def load_iris(batch_size=128):
     ds = Dataset(batch_size)
     X, y = datasets.load_iris(True)
     return ds.from_cache(X, y)
+
+
+def load_heart(return_ds=True):
+    df = pd.read_csv('https://storage.googleapis.com/applied-dl/heart.csv')
+    if return_ds:
+        train, test = train_test_split(df, test_size=0.2)
+        ds_train = Dataset().from_cache(train.drop('target', 1), train['target'])
+        ds_test = Dataset().from_cache(test.drop('target', 1), test['target'])
+        return ds_train, ds_test
+    else:
+        return df

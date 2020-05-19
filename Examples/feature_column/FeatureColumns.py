@@ -8,6 +8,7 @@ __mtime__ = '19-3-22'
 import tensorflow as tf
 
 """
+https://mp.weixin.qq.com/s/5jfOahNKnUjTre0O2655IA
 https://blog.csdn.net/u014061630/article/details/82937333
 https://www.tensorflow.org/beta/tutorials/keras/feature_columns
 https://github.com/tensorflow/tensorflow/issues/27416

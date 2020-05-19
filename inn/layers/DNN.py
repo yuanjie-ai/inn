@@ -6,14 +6,16 @@
 # @Author       : yuanjie
 # @Email        : yuanjie@xiaomi.com
 # @Software     : PyCharm
-# @Description  : 
+# @Description  :
+from typing import Any, Callable, Dict, List, Optional, Sequence, Type, Union
+
 import tensorflow as tf
 
 
 class DNN(tf.keras.layers.Layer):
 
     def __init__(self,
-                 hidden_units_list,
+                 hidden_units_list: List[int]= (64, 32, 16, 4),
                  activation='relu',
                  kernel_regularizer=tf.keras.regularizers.l2(),
                  use_bn=False,

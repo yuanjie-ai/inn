@@ -14,6 +14,7 @@ from .Add import Add
 from .NoMask import NoMask
 from .Linear import Linear
 from .DNN import DNN
+from .Prediction import Prediction
 
 from tensorflow.keras.layers import *
 

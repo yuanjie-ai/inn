@@ -11,4 +11,4 @@
 
 import tensorflow as tf
 from tensorflow.python.keras.layers import \
-    Dense, Conv1D, GlobalMaxPooling1D, Concatenate, Dropout
+    Dense, Conv1D, GlobalMaxPooling1D, Concatenate, Dropout, concatenate

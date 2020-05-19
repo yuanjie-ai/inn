@@ -28,29 +28,33 @@ class Dataset(object):
         self.batchsize = batchsize
         self.cache_filename = cache_filename
 
-    def from_cache(self, inputs, outputs=None, shuffle_buffer_size=10000):
+    def from_cache(self, inputs, outputs=None, is_test=False, shuffle_buffer_size=10000, shuffle_seed=None):
         """
         多输入多输出inputs/outputs对应元组
         """
-
-        if isinstance(inputs, (list, np.ndarray, dict, pd.DataFrame)):
+        if isinstance(inputs, tuple):  # Multi-inputs
+            pass
+        elif isinstance(inputs, (list, np.ndarray, dict, pd.DataFrame)):
             if isinstance(inputs, pd.DataFrame):
                 inputs = inputs.to_dict('list')
-        elif isinstance(inputs, tuple):  # Multi-inputs
-            pass
         else:
             raise ValueError("`inputs` Data Type Error")
 
         if outputs is None:
-            tensors = inputs
+            tensors = (inputs,)
         else:
             tensors = (inputs, outputs)
 
         # Common
         ds = tf.data.Dataset.from_tensor_slices(tensors)
-        ds = ds.shuffle(shuffle_buffer_size, seed=None)
+
+        if outputs is None or is_test:  # 避免测试集shuffle
+            pass
+        else:
+            ds = ds.shuffle(shuffle_buffer_size, seed=shuffle_seed)
+
         ds = ds.batch(self.batchsize)
-        ds = ds.prefetch(tf.data.experimental.AUTOTUNE) # todo: .repeat()
+        ds = ds.prefetch(tf.data.experimental.AUTOTUNE)  # todo: .repeat() 更乱一些？？？在每个epoch内将图片打乱组成大小为32的batch，并重复10次。
 
         return ds
 

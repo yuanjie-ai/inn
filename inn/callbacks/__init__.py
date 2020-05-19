@@ -59,3 +59,8 @@ model.summary()
 model.compile('sgd', loss='binary_crossentropy', metrics=['accuracy', keras.metrics.AUC()])
 model.fit(X, y, 128, 10)
 
+
+tf.keras.losses.mean_squared_error,
+import tensorflow_addons as tfa
+
+tfa

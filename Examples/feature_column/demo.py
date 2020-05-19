@@ -6,7 +6,7 @@
 # @Author       : yuanjie
 # @Email        : yuanjie@xiaomi.com
 # @Software     : PyCharm
-# @Description  :
+# @Description  : https://blog.csdn.net/u014061630/article/details/82937333
 
 
 import numpy as np
@@ -90,7 +90,7 @@ x = layers.Dense(64, activation='relu')(x)
 
 baggage_pred = layers.Dense(1, activation='sigmoid')(x)
 
-model = keras.Model(inputs=list(feature_layer_inputs.values()), outputs=baggage_pred)
+model = keras.Model(inputs=feature_layer_inputs, outputs=baggage_pred)
 
 # 获取thal_embedding权重
 model_ = keras.Model(inputs=feature_layer_inputs['thal'],
@@ -106,26 +106,35 @@ model.fit(train_ds)
 feed_dict = train_ds.as_numpy_iterator().__next__()
 model.fit(*feed_dict)
 
-# estimator
-print("Estimator")
+# # estimator
+# print("Estimator")
+#
+#
+# def input_fn(features, labels, training=True, batch_size=256):
+#     """An input function for training or evaluating"""
+#     # 将输入转换为数据集。
+#     dataset = tf.data.Dataset.from_tensor_slices((dict(features), labels))
+#
+#     # 如果在训练模式下混淆并重复数据。
+#     if training:
+#         dataset = dataset.shuffle(1000).repeat()
+#
+#     return dataset.batch(batch_size)
+#
+#
+# m = tf.estimator.DNNClassifier(
+#     feature_columns=feature_columns,
+#     hidden_units=[64, 32],
+#     #     model_dir='./model_log',
+#     n_classes=2
+# )
+# m.train(input_fn=lambda: input_fn(dataframe.drop('target', 1), dataframe.target), steps=5000)
 
 
-def input_fn(features, labels, training=True, batch_size=256):
-    """An input function for training or evaluating"""
-    # 将输入转换为数据集。
-    dataset = tf.data.Dataset.from_tensor_slices((dict(features), labels))
+#
+# from tensorflow.feature_column import numeric_column
+#
 
-    # 如果在训练模式下混淆并重复数据。
-    if training:
-        dataset = dataset.shuffle(1000).repeat()
-
-    return dataset.batch(batch_size)
+from tensorflow.python.feature_column.feature_column_v2 import NumericColumn, CategoricalColumn
 
 
-m = tf.estimator.DNNClassifier(
-    feature_columns=feature_columns,
-    hidden_units=[64, 32],
-    #     model_dir='./model_log',
-    n_classes=2
-)
-m.train(input_fn=lambda: input_fn(dataframe.drop('target', 1), dataframe.target), steps=5000)

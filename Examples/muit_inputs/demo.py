@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @Project      : inn.
-# @File         : muit_inputs_outputs
-# @Time         : 2020/5/18 9:31 下午
+# @File         : demo
+# @Time         : 2020/5/19 10:04 上午
 # @Author       : yuanjie
 # @Email        : yuanjie@xiaomi.com
 # @Software     : PyCharm
@@ -19,6 +19,9 @@ from inn.dateset import Dataset
 X, y = load_iris(True)
 # 构建数据集
 ds = Dataset().from_cache((X, X), (y, y))
+for i in ds:
+    print(i)
+    break
 
 # 搭建模型
 input1 = Input((4,))
