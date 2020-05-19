@@ -32,15 +32,8 @@ class Baseline(BaseModel):
 
         x = DNN()(feature_layer_outputs)
 
-        # todo 修 Prediction
-        # output = Prediction(task=self.task, use_bias=False, num_class=self.num_class)(x)
-        assert self.task == 'binary'
-        output = tf.keras.layers.Dense(1, 'sigmoid')(x)
+        output = Prediction(task=self.task, num_class=self.num_class)(x)
 
         model = tf.keras.models.Model(inputs=feature_layer_inputs, outputs=output)
         model.summary()
         return model
-
-
-if __name__ == '__main__':
-    Baseline([tf.feature_column.numeric_column('age')]).model

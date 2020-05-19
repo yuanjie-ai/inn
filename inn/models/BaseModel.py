@@ -22,10 +22,13 @@ class BaseModel(object):
     def __init__(self,  # todo: 初始化基础属性
                  feature_columns: List[FeatureColumn] = None,
                  task='binary',
-                 num_class=2,
+                 num_class=None,
                  early_stopping_epochs=3):
         self.feature_columns = feature_columns
         self.task = task
+        if task == 'multiclass':
+            assert num_class is not None, "num_class must not be None"
+
         self.num_class = num_class
         self.early_stopping_epochs = early_stopping_epochs
 
