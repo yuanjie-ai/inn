@@ -20,7 +20,7 @@ from tensorflow.python.feature_column.feature_column_v2 import \
     BucketizedColumn
 
 
-class BaseLine(BaseModel):
+class Baseline(BaseModel):
 
     def __init__(self, feature_columns: List[FeatureColumn], **kwargs):
         super().__init__(feature_columns=feature_columns, **kwargs)  # 覆盖基础属性
@@ -43,4 +43,4 @@ class BaseLine(BaseModel):
 
 
 if __name__ == '__main__':
-    BaseLine([tf.feature_column.numeric_column('age')]).model
+    Baseline([tf.feature_column.numeric_column('age')]).model
