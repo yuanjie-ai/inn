@@ -19,6 +19,7 @@ df.head()
 num_cols = ['age', 'sex']  # 选择部分列
 
 ds = Dataset().from_cache(df[num_cols], df['target'])
+
 model = Baseline(list(map(tf.feature_column.numeric_column, num_cols))).model
 
 model.compile(loss='categorical_crossentropy')
